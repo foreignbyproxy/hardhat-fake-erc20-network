@@ -1,5 +1,7 @@
 # hardhat-fake-erc20-network
 
+***WORK IN PROGRESS***
+
 A [Hardhat](https://hardhat.org) plugin to deploy a configurable number of ERC-20 tokens to your local hardhat network. The plugin uses [OpenZeppelin's](https://openzeppelin.com/) ERC-20 contract to deploy the tokens and automatically mint tokens for each user on the network.
 
 ## Installation
