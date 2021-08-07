@@ -19,8 +19,6 @@ const defaultSettings = {
 
 extendConfig(
     (config: HardhatConfig, userConfig: Readonly<HardhatUserConfig>) => {
-        debugger;
-
         //If no fakeERC20Network settings object, then add the default settings
         if (!config.fakeERC20Network) {
             config.fakeERC20Network = defaultSettings;
@@ -43,8 +41,6 @@ task(
     "Deploys fake ERC20 tokens to your localhost network"
 ).setAction(async (_, hre) => {
     const { config, ethers } = hre;
-
-    debugger;
 
     //Check to make sure a network is running on localhost
     await checkLocalhostNetwork(config);
