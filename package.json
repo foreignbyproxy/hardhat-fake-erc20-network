@@ -1,6 +1,6 @@
 {
     "name": "hardhat-fake-erc20-network",
-    "version": "0.0.1",
+    "version": "0.0.1-alpha",
     "description": "A Hardhat plugin that adds a task to deploy fake ERC20 tokens to the hardhat local network.",
     "repository": "github.com:foreignbyproxy/hardhat-fake-erc20-network",
     "author": "foreignbyproxy",
@@ -28,10 +28,11 @@
         "README.md"
     ],
     "dependencies": {
+        "@nomiclabs/hardhat-ethers": "^2.0.2",
+        "ethers": "^5.4.4",
         "hardhat": "^2.6.0",
         "node-fetch": "^2.6.1",
-        "@nomiclabs/hardhat-ethers": "^2.0.2",
-        "ethers": "^5.4.4"
+        "ora": "^5.4.1"
     },
     "devDependencies": {
         "@openzeppelin/contracts": "^4.2.0",

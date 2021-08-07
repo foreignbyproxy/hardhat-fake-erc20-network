@@ -3,19 +3,21 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import path from "path";
 
 declare module "mocha" {
-  interface Context {
-    hre: HardhatRuntimeEnvironment;
-  }
+    interface Context {
+        hre: HardhatRuntimeEnvironment;
+    }
 }
 
 export function useEnvironment(fixtureProjectName: string) {
-  beforeEach("Loading hardhat environment", function () {
-    process.chdir(path.join(__dirname, "fixture-projects", fixtureProjectName));
+    beforeEach("Loading hardhat environment", function () {
+        process.chdir(
+            path.join(__dirname, "test-projects", fixtureProjectName)
+        );
 
-    this.hre = require("hardhat");
-  });
+        this.hre = require("hardhat");
+    });
 
-  afterEach("Resetting hardhat", function () {
-    resetHardhatContext();
-  });
+    afterEach("Resetting hardhat", function () {
+        resetHardhatContext();
+    });
 }
