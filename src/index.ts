@@ -48,6 +48,7 @@ task(
     const tokenAddresses: {
         [k: string]: string;
     } = {};
+
     for (let token of fakeERC20Network.tokens) {
         console.log(`Deploying: ${token.name} (${token.symbol})`);
 
@@ -62,19 +63,19 @@ task(
         });
 
         //Deploy the token and wait until it is mined on the local network
-        let contract = await ERC20FakeFactory.deploy(
-            token.name,
-            token.symbol,
-            initialUsers
-        ).catch(() => {
-			console.log(`Token Deployment Failed: ${token.name} (${contract.address})`);
-        });
+        try {
+            let contract = await ERC20FakeFactory.deploy(
+                token.name,
+                token.symbol,
+                initialUsers
+            );
 
-        if (contract) {
             await contract.deployTransaction.wait();
 
-            console.log(`Token Deployed: ${token.name} (${contract.address})`);
+            console.log(`Token Deployed: ${token.name} - (${contract.address})`);
             tokenAddresses[token.symbol] = contract.address;
+        } catch (error) {
+            console.log(`Token Deployment Failed: ${token.name}`);
         }
     }
 
