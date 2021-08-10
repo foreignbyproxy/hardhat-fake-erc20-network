@@ -3,29 +3,46 @@ import { HardhatConfig, HardhatUserConfig } from "hardhat/types";
 
 import "@nomiclabs/hardhat-ethers";
 import fetch from "node-fetch";
+import ora from "ora";
 
 import "./type-extensions";
 
+const defaultSettings = {
+    tokens: [
+        {
+            name: "Fake ERC20 Token",
+            symbol: "FAKE",
+        },
+    ],
+    defaultMintAmount: "1000000000000000000000",
+};
+
 extendConfig(
     (config: HardhatConfig, userConfig: Readonly<HardhatUserConfig>) => {
-        config.fakeERC20Network = {
-            tokens: [
-                {
-                    name: "Fake ERC20 Token",
-                    symbol: "FAKE",
-                },
-            ],
-            defaultMintAmount: "1000000000000000000000",
-        };
+        //If no fakeERC20Network settings object, then add the default settings
+        if (!config.fakeERC20Network) {
+            config.fakeERC20Network = defaultSettings;
+        }
+
+        //If no tokens, add default token
+        if (config.fakeERC20Network.tokens.length === 0) {
+            config.fakeERC20Network.tokens = defaultSettings.tokens;
+        }
+
+        //If no defaultMintAmount, then add it
+        if (!config.fakeERC20Network.defaultMintAmount) {
+            config.fakeERC20Network.defaultMintAmount = defaultSettings.defaultMintAmount;
+        }
     }
 );
 
 task(
-    "erc20-faker",
+    "deploy-fake-erc20",
     "Deploys fake ERC20 tokens to your localhost network"
 ).setAction(async (_, hre) => {
     const { config, ethers } = hre;
 
+    //Check to make sure a network is running on localhost
     await checkLocalhostNetwork(config);
 
     const { fakeERC20Network } = config;
@@ -43,13 +60,16 @@ task(
         "ERC20FakeFactory"
     );
 
+    const spinner = ora();
+
     //Iterate over each token to deploy the ERC20FakeFactory contract on the local network and
     //mint the token for each signer
     const tokenAddresses: {
         [k: string]: string;
     } = {};
+
     for (let token of fakeERC20Network.tokens) {
-        console.log(`Deploying: ${token.name} (${token.symbol})`);
+        spinner.start(`Deploying: ${token.name} (${token.symbol})`);
 
         //Get an array for each user and their initial token balance
         let initialUsers = accounts.map((account) => {
@@ -62,27 +82,30 @@ task(
         });
 
         //Deploy the token and wait until it is mined on the local network
-        let contract = await ERC20FakeFactory.deploy(
-            token.name,
-            token.symbol,
-            initialUsers
-        ).catch(() => {
-			console.log(`Token Deployment Failed: ${token.name} (${contract.address})`);
-        });
+        try {
+            let contract = await ERC20FakeFactory.deploy(
+                token.name,
+                token.symbol,
+                initialUsers
+            );
 
-        if (contract) {
             await contract.deployTransaction.wait();
 
-            console.log(`Token Deployed: ${token.name} (${contract.address})`);
+            spinner.succeed(
+                `Token Deployed: ${token.name} - (${contract.address})`
+            );
             tokenAddresses[token.symbol] = contract.address;
+        } catch (error) {
+            spinner.fail(`Token Deployment Failed: ${token.name}`);
         }
     }
 
     // Display all of the tokens
-    console.log(`All Tokens Deployed (${fakeERC20Network.tokens.length})`);
+    spinner.info(`All Tokens Deployed (${fakeERC20Network.tokens.length})`);
     console.log(``);
     console.log("Tokens Contracts");
     console.log("=========================");
+    console.log(``);
     Object.keys(tokenAddresses).forEach((symbol) => {
         console.log(`${symbol} - ${tokenAddresses[symbol]}`);
     });
