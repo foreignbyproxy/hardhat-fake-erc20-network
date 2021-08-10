@@ -19,7 +19,8 @@
         "lint": "tslint --config tslint.json --project tsconfig.json",
         "test": "mocha --exit --recursive 'test/**/*.test.ts'",
         "build": "tsc",
-        "watch": "tsc -w"
+        "watch": "tsc -w",
+        "prepare": "husky install"
     },
     "files": [
         "dist/src/",
@@ -42,6 +43,7 @@
         "@types/node": "^16.4.13",
         "@types/node-fetch": "^2.5.12",
         "chai": "^4.3.4",
+        "husky": "^7.0.0",
         "mocha": "^9.0.3",
         "prettier": "2.3.2",
         "ts-node": "^10.1.0",
