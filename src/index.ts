@@ -2,8 +2,8 @@ import { extendConfig, task } from "hardhat/config";
 import { HardhatConfig, HardhatUserConfig } from "hardhat/types";
 
 import "@nomiclabs/hardhat-ethers";
-import fetch from "node-fetch";
 import ora from "ora";
+import { checkLocalhostNetwork } from "./utils";
 
 import "./type-extensions";
 
@@ -31,7 +31,8 @@ extendConfig(
 
         //If no defaultMintAmount, then add it
         if (!config.fakeERC20Network.defaultMintAmount) {
-            config.fakeERC20Network.defaultMintAmount = defaultSettings.defaultMintAmount;
+            config.fakeERC20Network.defaultMintAmount =
+                defaultSettings.defaultMintAmount;
         }
     }
 );
@@ -110,32 +111,3 @@ task(
         console.log(`${symbol} - ${tokenAddresses[symbol]}`);
     });
 });
-
-/*
-	 Checks to make sure that a local instance of HardHat node is running
- */
-async function checkLocalhostNetwork(config: HardhatConfig) {
-    //Make sure the "localhost" url is set so we can ping it
-    if (!config?.networks?.localhost?.url) {
-        throw new Error("No localhost URL");
-    }
-
-    // The JSON-RPC server run by the `hardhat node` task returns status=200 with an
-    // empty body when the server is sent a request with the method set to "OPTIONS"
-    // and refuses the connection if the server is not running
-    fetch(config.networks.localhost.url, {
-        method: "OPTIONS",
-    })
-        .then((res) => {
-            if (res.status !== 200) {
-                throw new Error(
-                    "Did not get the expected status from the local server"
-                );
-            }
-        })
-        .catch(() => {
-            throw new Error(
-                "Can't find the HardHat local server. You must start the server using the `npx hardhat node` command."
-            );
-        });
-}
