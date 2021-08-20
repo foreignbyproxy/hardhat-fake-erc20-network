@@ -3,7 +3,7 @@ import { HardhatConfig, HardhatUserConfig } from "hardhat/types";
 
 import "@nomiclabs/hardhat-ethers";
 import ora from "ora";
-import { checkLocalhostNetwork } from "./utils";
+import { PLUGIN_NAME, checkLocalhostNetwork } from "./utils";
 
 import "./type-extensions";
 
@@ -38,7 +38,7 @@ extendConfig(
 );
 
 task(
-    "deploy-fake-erc20",
+    PLUGIN_NAME,
     "Deploys fake ERC20 tokens to your localhost network"
 ).setAction(async (_, hre) => {
     const { config, ethers } = hre;

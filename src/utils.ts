@@ -1,6 +1,8 @@
 import "isomorphic-fetch";
 import { HardhatConfig } from "hardhat/types";
 
+export const PLUGIN_NAME = 'deploy-fake-erc20';
+
 /*
 	 Checks to make sure that a local instance of HardHat node is running
  */
