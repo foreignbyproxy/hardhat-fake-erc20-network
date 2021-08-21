@@ -6,6 +6,16 @@ import type { InitialUserData } from "../src/types";
 
 export const TASK_NAME = "deploy-fake-erc20";
 
+export const defaultSettings = {
+    tokens: [
+        {
+            name: "Fake ERC20 Token",
+            symbol: "FAKE",
+        },
+    ],
+    defaultMintAmount: "1000000000000000000000",
+};
+
 /*
 	 Checks to make sure that a local instance of HardHat node is running
  */

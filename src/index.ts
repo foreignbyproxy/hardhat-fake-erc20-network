@@ -1,21 +1,11 @@
 import { extendConfig, task } from "hardhat/config";
-import { HardhatConfig, HardhatUserConfig } from "hardhat/types";
 
 import "@nomiclabs/hardhat-ethers";
 import ora from "ora";
-import { TASK_NAME, checkLocalhostNetwork, getInitialUserData } from "./utils";
+import { defaultSettings, TASK_NAME, checkLocalhostNetwork, getInitialUserData } from "./utils";
 
 import "./type-extensions";
-
-const defaultSettings = {
-    tokens: [
-        {
-            name: "Fake ERC20 Token",
-            symbol: "FAKE",
-        },
-    ],
-    defaultMintAmount: "1000000000000000000000",
-};
+import type { HardhatConfig, HardhatUserConfig } from "hardhat/types";
 
 extendConfig(
     (config: HardhatConfig, userConfig: Readonly<HardhatUserConfig>) => {
