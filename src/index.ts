@@ -48,11 +48,6 @@ task(
 
     const { fakeERC20Network } = config;
 
-    //Check to see if there are any token set
-    if (fakeERC20Network.tokens.length === 0) {
-        throw new Error("No tokens set to deploy");
-    }
-
     //Get all the users on the network
     const accounts = await ethers.getSigners();
 
