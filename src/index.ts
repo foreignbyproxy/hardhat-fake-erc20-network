@@ -3,7 +3,7 @@ import { HardhatConfig, HardhatUserConfig } from "hardhat/types";
 
 import "@nomiclabs/hardhat-ethers";
 import ora from "ora";
-import { TASK_NAME, checkLocalhostNetwork } from "./utils";
+import { TASK_NAME, checkLocalhostNetwork, getInitialUserData } from "./utils";
 
 import "./type-extensions";
 
@@ -73,14 +73,9 @@ task(
         spinner.start(`Deploying: ${token.name} (${token.symbol})`);
 
         //Get an array for each user and their initial token balance
-        let initialUsers = accounts.map((account) => {
-            return {
-                userAddress: account.address,
-                initialBalance:
-                    token.defaultMintAmount ??
-                    fakeERC20Network.defaultMintAmount,
-            };
-        });
+        const initialMintAmount =
+            token.defaultMintAmount ?? fakeERC20Network.defaultMintAmount;
+        let initialUsers = getInitialUserData(accounts, initialMintAmount);
 
         //Deploy the token and wait until it is mined on the local network
         try {

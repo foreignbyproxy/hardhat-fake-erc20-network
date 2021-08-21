@@ -1,7 +1,10 @@
 import "isomorphic-fetch";
-import { HardhatConfig } from "hardhat/types";
 
-export const TASK_NAME = 'deploy-fake-erc20';
+import type { HardhatConfig } from "hardhat/types";
+import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import type { InitialUserData } from "../src/types";
+
+export const TASK_NAME = "deploy-fake-erc20";
 
 /*
 	 Checks to make sure that a local instance of HardHat node is running
@@ -30,4 +33,19 @@ export async function checkLocalhostNetwork(config: HardhatConfig) {
     }
 
     return true;
+}
+
+/*
+	Format ETH accounts and initial mint balance object for the fake ERC20 contract
+*/
+export function getInitialUserData(
+    accounts: SignerWithAddress[],
+    initialMintAmount: string
+): InitialUserData[] {
+    return accounts.map((account) => {
+        return {
+            userAddress: account.address,
+            initialBalance: initialMintAmount,
+        };
+    });
 }

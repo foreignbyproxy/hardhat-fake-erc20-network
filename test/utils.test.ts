@@ -1,15 +1,17 @@
 // tslint:disable-next-line no-implicit-dependencies
-import chai, { assert, expect } from "chai";
-
+import chai, { expect } from "chai";
 import fetchMock from "fetch-mock";
-
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 
-import { useEnvironment } from "./helpers";
-import { checkLocalhostNetwork } from "../src/utils";
+import { ethers } from "hardhat";
 
-describe("Test - checkLocalhostNetwork", function () {
+import { useEnvironment } from "./helpers";
+import { checkLocalhostNetwork, getInitialUserData } from "../src/utils";
+
+import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+
+describe("Utils - checkLocalhostNetwork", function () {
     useEnvironment("no-config");
 
 	this.afterEach(() => {
@@ -44,4 +46,26 @@ describe("Test - checkLocalhostNetwork", function () {
 
         await expect(checkLocalhostNetwork(config)).to.eventually.equal(true);
     });
+});
+
+
+describe("Utils - getInitialUserData", function () {
+	let accounts: SignerWithAddress[];
+
+	this.beforeAll(async () => {
+		accounts = await ethers.getSigners();
+	})
+
+	it("Returns an array of addresses and initialBalances", function() {
+		const initialMint = '1000000';
+		const initialUsers = getInitialUserData(accounts, initialMint);
+
+		expect(initialUsers.length).to.equal(accounts.length);
+
+		expect(initialUsers[0].hasOwnProperty('userAddress')).to.equal(true);
+		expect(initialUsers[0].userAddress).to.equal(accounts[0].address);
+
+		expect(initialUsers[0].hasOwnProperty('initialBalance')).to.equal(true);
+		expect(initialUsers[0].initialBalance).to.equal(initialMint);
+	})
 });

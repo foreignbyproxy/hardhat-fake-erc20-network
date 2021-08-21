@@ -8,3 +8,8 @@ export interface Token {
 	symbol: string
 	defaultMintAmount?: string
 }
+
+export interface InitialUserData {
+	userAddress: string
+	initialBalance: string
+}
