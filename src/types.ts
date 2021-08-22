@@ -1,4 +1,4 @@
-export interface IFakeERC20Network {
+export interface FakeERC20Network {
 	tokens: Token[]
 	defaultMintAmount: string
 }

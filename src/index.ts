@@ -15,7 +15,7 @@ extendConfig(
         }
 
         //If no tokens, add default token
-        if (config.fakeERC20Network.tokens.length === 0) {
+        if (!config.fakeERC20Network.tokens || config.fakeERC20Network.tokens.length === 0) {
             config.fakeERC20Network.tokens = defaultSettings.tokens;
         }
 
