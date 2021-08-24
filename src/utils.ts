@@ -2,7 +2,7 @@ import "isomorphic-fetch";
 
 import type { HardhatConfig } from "hardhat/types";
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import type { InitialUserData } from "../src/types";
+import type { InitialUserData, TaskResults } from "../src/types";
 
 export const TASK_NAME = "deploy-fake-erc20";
 
@@ -58,4 +58,17 @@ export function getInitialUserData(
             initialBalance: initialMintAmount,
         };
     });
+}
+
+export function getTaskResultsDisplay(taskResults: TaskResults) {
+	let results = [
+		'Task Results\n',
+		'=========================\n',
+	];
+
+    Object.keys(taskResults).forEach((symbol) => {
+		results.push(`${symbol} - ${taskResults[symbol]}\n`);
+    });
+
+	return results.join('');
 }

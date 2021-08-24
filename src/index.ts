@@ -2,10 +2,17 @@ import { extendConfig, task } from "hardhat/config";
 
 import "@nomiclabs/hardhat-ethers";
 import ora from "ora";
-import { defaultSettings, TASK_NAME, checkLocalhostNetwork, getInitialUserData } from "./utils";
+import {
+    defaultSettings,
+    TASK_NAME,
+    checkLocalhostNetwork,
+    getInitialUserData,
+    getTaskResultsDisplay,
+} from "./utils";
 
 import "./type-extensions";
 import type { HardhatConfig, HardhatUserConfig } from "hardhat/types";
+import type { TaskResults } from "./types";
 
 extendConfig(
     (config: HardhatConfig, userConfig: Readonly<HardhatUserConfig>) => {
@@ -15,7 +22,10 @@ extendConfig(
         }
 
         //If no tokens, add default token
-        if (!config.fakeERC20Network.tokens || config.fakeERC20Network.tokens.length === 0) {
+        if (
+            !config.fakeERC20Network.tokens ||
+            config.fakeERC20Network.tokens.length === 0
+        ) {
             config.fakeERC20Network.tokens = defaultSettings.tokens;
         }
 
@@ -50,9 +60,7 @@ task(
 
     //Iterate over each token to deploy the ERC20FakeFactory contract on the local network and
     //mint the token for each signer
-    const tokenAddresses: {
-        [k: string]: string;
-    } = {};
+    const taskResults: TaskResults = {};
 
     for (let token of fakeERC20Network.tokens) {
         spinner.start(`Deploying: ${token.name} (${token.symbol})`);
@@ -75,19 +83,15 @@ task(
             spinner.succeed(
                 `Token Deployed: ${token.name} - (${contract.address})`
             );
-            tokenAddresses[token.symbol] = contract.address;
+            taskResults[token.symbol] = contract.address;
         } catch (error) {
+            taskResults[token.symbol] = "Failed";
             spinner.fail(`Token Deployment Failed: ${token.name}`);
         }
     }
 
-    // Display all of the tokens
-    spinner.info(`All Tokens Deployed (${fakeERC20Network.tokens.length})`);
-    console.log(``);
-    console.log("Tokens Contracts");
-    console.log("=========================");
-    console.log(``);
-    Object.keys(tokenAddresses).forEach((symbol) => {
-        console.log(`${symbol} - ${tokenAddresses[symbol]}`);
-    });
+    // Display task results
+    spinner.info(`Tokens Deployed`);
+    const results = getTaskResultsDisplay(taskResults);
+    console.log(results);
 });

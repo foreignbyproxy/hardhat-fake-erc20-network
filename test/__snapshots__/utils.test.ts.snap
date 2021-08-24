@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Utils - displayTaskResults The function should return string output 1`] = `
+"Task Results
+=========================
+test1 - Success
+test2 - Failed
+"
+`;
