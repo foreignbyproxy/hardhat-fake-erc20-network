@@ -56,14 +56,12 @@ describe("Utils - checkLocalhostNetwork", function () {
 });
 
 describe("Utils - getInitialUserData", function () {
-    let accounts: SignerWithAddress[];
+	useEnvironment("no-config");
 
-    this.beforeAll(async () => {
-        accounts = await ethers.getSigners();
-    });
+    it("Returns an array of addresses and initialBalances", async function () {
+		let accounts = await ethers.getSigners();
 
-    it("Returns an array of addresses and initialBalances", function () {
-        const initialMint = "1000000";
+		const initialMint = "1000000";
         const initialUsers = getInitialUserData(accounts, initialMint);
 
         expect(initialUsers.length).to.equal(accounts.length);
@@ -77,6 +75,8 @@ describe("Utils - getInitialUserData", function () {
 });
 
 describe("Utils - displayTaskResults", function () {
+	useEnvironment("no-config");
+
     it("The function should return string output", function () {
         const taskResults = {
             test1: "Success",

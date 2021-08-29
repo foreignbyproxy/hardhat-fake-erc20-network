@@ -1,8 +1,11 @@
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
-import "./dist/src";
+import "./src/index";
+ import { HardhatUserConfig } from "hardhat/types";
 
-module.exports = {
-    solidity: "0.8.0",
-};
+const config: HardhatUserConfig = {
+	solidity: "0.8.0",
+}
+
+export default config;
