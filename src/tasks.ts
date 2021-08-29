@@ -8,7 +8,7 @@ import {
 import type { TaskResults } from "./types";
 import type { HardhatRuntimeEnvironment } from "hardhat/types";
 
-export async function deployTokens(hre: HardhatRuntimeEnvironment) {
+export async function deployTokens(_: any, hre: HardhatRuntimeEnvironment) {
     const { config, ethers } = hre;
 
     //Check to make sure a network is running on localhost

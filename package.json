@@ -45,7 +45,6 @@
         "@types/sinon": "^10.0.2",
         "chai": "^4.3.4",
         "chai-as-promised": "^7.1.1",
-        "decache": "^4.6.0",
         "fetch-mock": "^9.11.0",
         "mocha": "^9.0.3",
         "mocha-chai-jest-snapshot": "^1.1.3",
