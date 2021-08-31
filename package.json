@@ -32,6 +32,7 @@
         "ethers": "^5.4.4",
         "hardhat": "^2.6.0",
         "isomorphic-fetch": "^3.0.0",
+        "mute": "^2.0.6",
         "ora": "^5.4.1"
     },
     "devDependencies": {

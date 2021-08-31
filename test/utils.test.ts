@@ -16,8 +16,6 @@ import {
     getTaskResultsDisplay,
 } from "../src/utils";
 
-import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-
 describe("Utils - checkLocalhostNetwork", function () {
     useEnvironment("no-config");
 

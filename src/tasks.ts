@@ -5,6 +5,8 @@ import {
     getTaskResultsDisplay,
 } from "./utils";
 
+import ERC20FakeFactory from '../artifacts/contracts/ERC20FakeFactory.sol/ERC20FakeFactory.json';
+
 import type { TaskResults } from "./types";
 import type { HardhatRuntimeEnvironment } from "hardhat/types";
 
@@ -20,8 +22,10 @@ export async function deployTokens(_: any, hre: HardhatRuntimeEnvironment) {
     const accounts = await ethers.getSigners();
 
     //Get the ERC20 Factory ABI
-    const ERC20FakeFactory = await ethers.getContractFactory(
-        "ERC20FakeFactory"
+    const contractFactory = new ethers.ContractFactory(
+        ERC20FakeFactory.abi,
+        ERC20FakeFactory.bytecode,
+		accounts[0]
     );
 
     const spinner = ora();
@@ -40,7 +44,7 @@ export async function deployTokens(_: any, hre: HardhatRuntimeEnvironment) {
 
         //Deploy the token and wait until it is mined on the local network
         try {
-            let contract = await ERC20FakeFactory.deploy(
+            let contract = await contractFactory.deploy(
                 token.name,
                 token.symbol,
                 initialUsers
