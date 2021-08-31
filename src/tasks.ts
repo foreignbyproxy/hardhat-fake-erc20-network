@@ -7,7 +7,7 @@ import {
 
 import ERC20FakeFactory from '../artifacts/contracts/ERC20FakeFactory.sol/ERC20FakeFactory.json';
 
-import type { TaskResults } from "./types";
+import type { TaskResults } from "./types/types";
 import type { HardhatRuntimeEnvironment } from "hardhat/types";
 
 export async function deployTokens(_: any, hre: HardhatRuntimeEnvironment) {

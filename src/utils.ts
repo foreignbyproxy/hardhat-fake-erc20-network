@@ -2,7 +2,7 @@ import "isomorphic-fetch";
 
 import type { HardhatConfig } from "hardhat/types";
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import type { InitialUserData, TaskResults } from "../src/types";
+import type { InitialUserData, TaskResults } from "./types/types";
 
 export const TASK_NAME = "deploy-fake-erc20";
 

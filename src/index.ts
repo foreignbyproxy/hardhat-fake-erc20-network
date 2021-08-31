@@ -4,7 +4,7 @@ import "@nomiclabs/hardhat-ethers";
 import { deployTokens } from "./tasks";
 import { defaultSettings, TASK_NAME } from "./utils";
 
-import "./type-extensions";
+import "./types/type-extensions";
 import type { HardhatConfig, HardhatUserConfig } from "hardhat/types";
 
 extendConfig(
