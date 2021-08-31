@@ -59,12 +59,10 @@ describe("Task", function () {
 			Run task
 
 			Note: Using mute package to suppress the output from Ora.
-			Ora uses process.stderr.write instead of console.log. If there
-			are any errors while running the task this might be an issue
+			Ora uses process.stderr.write instead of console.log.
 		*/
         let unmute = mute();
-        await this.hre.run(utils.TASK_NAME);
-        unmute();
+        await this.hre.run(utils.TASK_NAME).finally(unmute);
 
         //Tests
         expect(checkLocalhostNetworkSTUB.called).to.equal(true);
