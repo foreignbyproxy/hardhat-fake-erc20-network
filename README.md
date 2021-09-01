@@ -1,8 +1,9 @@
 # hardhat-deploy-fake-erc20
 
-A [Hardhat](https://hardhat.org) plugin to deploy a configurable number of ERC-20 tokens to your local hardhat network. The plugin uses [OpenZeppelin's](https://openzeppelin.com/) ERC-20 contract to deploy the tokens and automatically mint tokens for each user on the network.
+A [Hardhat](https://hardhat.org) plugin to deploy a configurable number of ERC-20 tokens to the local Hardhat network. This is inteded to be used to help developers quickly deploy ERC20 tokens and mint a beginning balance for each account on the network. This is useful for dApps that interact with multiple ERC20 tokens. The plugin uses [OpenZeppelin's](https://openzeppelin.com/) ERC-20 contract to create the tokens.
 
 ## Installation
+
 Run the following command to install hardhat-deploy-fake-erc20 in your hardhat project. The pluging requires the [@nomiclabs/hardhat-ethers](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-ethers) plugin and the Ethereum library `ethers.js`.
 
 ```bash
@@ -21,53 +22,47 @@ Or if you are using TypeScript, in your `hardhat.config.ts`:
 import "hardhat-deploy-fake-erc20";
 ```
 
-
 ## Required plugins
-- [@nomiclabs/hardhat-ethers](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-ethers)
 
-## Tasks
+-   [@nomiclabs/hardhat-ethers](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-ethers)
 
-<_A description of each task added by this plugin. If it just overrides internal
-tasks, this may not be needed_>
-
-This plugin creates no additional tasks.
-
-<_or_>
-
-This plugin adds the _example_ task to Hardhat:
-```
-output of `npx hardhat help example`
-```
-
-## Environment extensions
-
-<_A description of each extension to the Hardhat Runtime Environment_>
-
-This plugin extends the Hardhat Runtime Environment by adding an `example` field
-whose type is `ExampleHardhatRuntimeEnvironmentField`.
 
 ## Configuration
 
-<_A description of each extension to the HardhatConfig or to its fields_>
+The plugin adds the `fakeERC20Network` property to `hardhat.config.js`.
 
-This plugin extends the `HardhatUserConfig`'s `ProjectPathsUserConfig` object with an optional
-`newPath` field.
-
-This is an example of how to set it:
+This is an example:
 
 ```js
 module.exports = {
-  paths: {
-    newPath: "new-path"
-  }
+    fakeERC20Network: {
+        tokens: [
+            {
+                name: "Gold",
+                symbol: "GLD",
+                defaultMintAmount: "80000000000000000000",
+            },
+			...
+        ],
+        defaultMintAmount: "80000000000000000000",
+    },
 };
 ```
 
-## Usage
+**tokens** - An array of objects that describe the tokens to be deployed to the local network.
 
-<_A description of how to use this plugin. How to use the tasks if there are any, etc._>
+| Property          | Required | Description                                                     |
+| ----------------- | -------- | --------------------------------------------------------------- |
+| name              | Yes      | The name of the ERC20 token                                     |
+| symbol            | Yes      | The Symbol of the token                                         |
+| defaultMintAmount | Yes      | The amount to mint for each user. Overrides `defaultMintAmount` |
 
-There are no additional steps you need to take for this plugin to work.
+**defaultMintAmount** - The amount to of each token to minto for each user. This is a fallback if no `defaultMintAmount` is added to the tokens
 
-Install it and access ethers through the Hardhat Runtime Environment anywhere
-you need it (tasks, scripts, tests, etc).
+## Tasks
+
+The plugin adds the `deploy-fake-erc20` task to Hardhat. The task will deploy the tokens described in the `fakeERC20Network.tokens` array and mint the `defaultMintAmount` for each user on the network. The task returns the contract address for each token deployed.
+
+```
+npx hardhat deploy-fake-erc20
+```
