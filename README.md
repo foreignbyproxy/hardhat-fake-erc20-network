@@ -26,7 +26,6 @@ import "hardhat-deploy-fake-erc20";
 
 -   [@nomiclabs/hardhat-ethers](https://github.com/nomiclabs/hardhat/tree/master/packages/hardhat-ethers)
 
-
 ## Configuration
 
 The plugin adds the `fakeERC20Network` property to `hardhat.config.js`.
@@ -51,11 +50,11 @@ module.exports = {
 
 **tokens** - An array of objects that describe the tokens to be deployed to the local network.
 
-| Property          | Required | Description                                                     |
-| ----------------- | -------- | --------------------------------------------------------------- |
-| name              | Yes      | The name of the ERC20 token                                     |
-| symbol            | Yes      | The Symbol of the token                                         |
-| defaultMintAmount | Yes      | The amount to mint for each user. Overrides `defaultMintAmount` |
+| Property          | Required | Description                                                            |
+| ----------------- | -------- | ---------------------------------------------------------------------- |
+| name              | Yes      | The name of the ERC20 token                                            |
+| symbol            | Yes      | The Symbol of the token                                                |
+| defaultMintAmount | No       | The amount to mint for each user. Overrides global `defaultMintAmount` |
 
 **defaultMintAmount** - The amount to of each token to minto for each user. This is a fallback if no `defaultMintAmount` is added to the tokens
 
