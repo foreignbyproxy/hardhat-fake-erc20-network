@@ -1,6 +1,7 @@
-import { resetHardhatContext } from "hardhat/plugins-testing";
-import { HardhatRuntimeEnvironment } from "hardhat/types";
 import path from "path";
+import { resetHardhatContext } from "hardhat/plugins-testing";
+
+import type{ HardhatRuntimeEnvironment } from "hardhat/types";
 
 declare module "mocha" {
     interface Context {

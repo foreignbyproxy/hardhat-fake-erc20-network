@@ -62,3 +62,4 @@ typings/
 # environment variables
 .env
 cache/solidity-files-cache.json
+.vscode/launch.json

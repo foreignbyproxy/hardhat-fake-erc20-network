@@ -5,25 +5,24 @@ import "../../../src/index";
 
 const config: HardhatUserConfig = {
     solidity: "0.7.3",
-    defaultNetwork: "localhost",
     fakeERC20Network: {
         tokens: [
             {
                 name: "Gold",
                 symbol: "GLD",
-				defaultMintAmount: "80000000000000000000",
+                defaultMintAmount: "80000000000000000000",
             },
             {
                 name: "Silver",
                 symbol: "SLV",
-				defaultMintAmount: "600000000000000000000",
+                defaultMintAmount: "600000000000000000000",
             },
             {
                 name: "Bronze",
                 symbol: "BRZ",
             },
         ],
-		defaultMintAmount: "80000000000000000000",
+        defaultMintAmount: "80000000000000000000",
     },
 };
 
