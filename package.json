@@ -1,6 +1,6 @@
 {
     "name": "hardhat-deploy-fake-erc20",
-    "version": "0.0.2-alpha",
+    "version": "0.0.3-alpha",
     "description": "A Hardhat plugin that adds a task to deploy fake ERC20 tokens to the hardhat local network.",
     "repository": "github.com:foreignbyproxy/hardhat-fake-erc20-network",
     "author": "foreignbyproxy",
